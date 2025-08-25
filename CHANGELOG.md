@@ -12,6 +12,11 @@ The format is based on [Common Changelog](https://common-changelog.org/) and thi
 - Fixed warnings raised on startup for old bundled extensions
 - Adding ability to update all nexus sourced mods in one go. ([#17612](https://github.com/Nexus-Mods/Vortex/issues/17612))
 - Fixed game store helper potentially losing data during discovery. ([#17373](https://github.com/Nexus-Mods/Vortex/issues/17373), [#7](https://github.com/Nexus-Mods/game-oblivionremastered/issues/7))
+- **testing**: Fixed test suite compatibility for macOS development environment
+  - Updated disk space test to properly handle volume detection differences between macOS and Windows
+  - Fixed FOMOD installer action and reducer tests to match new instance-based architecture
+  - Added missing utility functions to vortex-api mock for feedback reducer tests
+  - These changes enable Mac port development without affecting Windows test behavior
 - **collections**: Added collection install tracking for Nexus API use
 - **plugin-management**: Fixed libloot potentially running in the background while installing collections
 - **stardewvalley**: Fixed configuration mod not applied when smapi installed manually. ([#17107](https://github.com/Nexus-Mods/Vortex/issues/17107), [#17093](https://github.com/Nexus-Mods/Vortex/issues/17093))
