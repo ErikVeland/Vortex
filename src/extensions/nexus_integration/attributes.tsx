@@ -177,8 +177,8 @@ export function genModIdAttribute(api: IExtensionApi,
       return res;
     },
     calc: (mod: IMod) => ((mod.attributes?.source === 'nexus') && (mod.type !== 'collection'))
-        ? (mod.attributes?.modId ?? null)
-        : undefined,
+      ? (mod.attributes?.modId ?? null)
+      : undefined,
     placement: 'detail',
     isToggleable: false,
     edit: {},
@@ -200,8 +200,8 @@ export function genCollectionIdAttribute(api: IExtensionApi, nexus: () => Nexus)
       return res;
     },
     calc: (mod: IMod) => ((mod.attributes?.source ?? 'nexus') && (mod.type === 'collection'))
-        ? (mod.attributes?.collectionId ?? null)
-        : undefined,
+      ? (mod.attributes?.collectionId ?? null)
+      : undefined,
     placement: 'detail',
     isToggleable: false,
     edit: {},
