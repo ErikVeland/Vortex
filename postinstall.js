@@ -141,10 +141,70 @@ async function verifyPrebuild() {
   }
 }
 
+async function restorePackageJsonFiles() {
+  if (!isMacOS()) {
+    return;
+  }
+  
+  console.log('Restoring package.json files on macOS...');
+  
+  const mainPackageJson = path.join(__dirname, 'package.json');
+  const appPackageJson = path.join(__dirname, 'app', 'package.json');
+  const mainBackup = mainPackageJson + '.backup';
+  const appBackup = appPackageJson + '.backup';
+  
+  try {
+    // Restore main package.json
+    if (await fs.stat(mainBackup).then(() => true).catch(() => false)) {
+      await fs.copyFile(mainBackup, mainPackageJson);
+      await fs.unlink(mainBackup);
+      console.log('Restored main package.json from backup');
+    }
+    
+    // Restore app/package.json
+    if (await fs.stat(appBackup).then(() => true).catch(() => false)) {
+      await fs.copyFile(appBackup, appPackageJson);
+      await fs.unlink(appBackup);
+      console.log('Restored app/package.json from backup');
+    }
+  } catch (err) {
+    console.log('Error restoring package.json files:', err.message);
+  }
+}
+
+// Function to remove drivelist package on macOS since we use a mock
+async function removeDrivelistOnMacOS() {
+  if (isMacOS()) {
+    console.log('Removing drivelist package on macOS (using mock instead)...');
+    try {
+      const drivelistPath = path.join(__dirname, 'node_modules', 'drivelist');
+      await fs.stat(drivelistPath);
+      await fs.rm(drivelistPath, { recursive: true, force: true });
+      console.log('Successfully removed drivelist package on macOS');
+    } catch (err) {
+      // Package might not exist, which is fine
+      console.log('drivelist package not found or already removed');
+    }
+    
+    // Also remove from app/node_modules if it exists
+    try {
+      const appDrivelistPath = path.join(__dirname, 'app', 'node_modules', 'drivelist');
+      await fs.stat(appDrivelistPath);
+      await fs.rm(appDrivelistPath, { recursive: true, force: true });
+      console.log('Successfully removed drivelist package from app/node_modules on macOS');
+    } catch (err) {
+      // Package might not exist, which is fine
+      console.log('drivelist package not found in app/node_modules or already removed');
+    }
+  }
+}
+
 async function main() {
   ensureTypesInstalled();
   verifyPrebuild();
   verifyModulesInstalled();
+  restorePackageJsonFiles();
+  removeDrivelistOnMacOS();
 }
 
 main();

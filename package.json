@@ -12,8 +12,8 @@
     "url": "https://github.com/Nexus-Mods/Vortex"
   },
   "scripts": {
-    "_assets_out": "yarn run update_aboutpage && tsc -p extensions/games && node InstallAssets.js out && node compileExtensionSCSS.js out && yarn run compile_themes",
-    "_assets_app": "yarn run update_aboutpage && tsc -p extensions/games && node InstallAssets.js app && node compileExtensionSCSS.js app && yarn run compile_themes_app",
+    "_assets_out": "yarn run update_aboutpage && tsc -p extensions/games && node InstallAssets.js out && yarn run compile_themes",
+    "_assets_app": "yarn run update_aboutpage && tsc -p extensions/games && node InstallAssets.js app && yarn run compile_themes_app",
     "compile_themes_app": "mkdir -p app/assets/css && sass --style compressed src/stylesheets/style.scss > app/assets/css/style.css && sass --style compressed src/stylesheets/loadingScreen.scss > app/assets/css/loadingScreen.css",
     "_install_app": "cross-env SKIP_NATIVE_BUILD=1 PREBUILD_INSTALL_ONLY=1 cd app && rm-local-modules && yarn install --non-interactive --check-files && yarn autoclean --force",
     "subprojects": "node BuildSubprojects.js out",
@@ -26,7 +26,7 @@
     "extract_sourcemaps": "node copy_sourcemaps.js",
     "package": "electron-builder --config electron-builder-config.json --publish never",
     "package-old": "electron-builder --config electron-builder-config-old.json --publish never",
-    "preinstall": "",
+    "preinstall": "node scripts/preinstall-macos.js",
     "postinstall": "node scripts/configure-native-modules.js && node scripts/patch-native-modules.js && node scripts/fix-7z-bin-macos.js && node postinstall.js && patch-package && bash scripts/setup-submodule-forks.sh || true",
     "postinstall:make-bsdiff-patch": "node scripts/patch-bsdiff.js && npx patch-package bsdiff-node",
     "postinstall:make-drivelist-patch": "node scripts/patch-drivelist.js && npx patch-package drivelist",
@@ -201,7 +201,7 @@
   "optionalDependencies": {
     "crash-dump": "Nexus-Mods/node-crash-dump",
     "diskusage": "TanninOne/node-diskusage",
-    "drivelist": "^12.0.2",
+    "drivelist": "TanninOne/drivelist",
     "native-errors": "Nexus-Mods/node-native-errors",
     "vortexmt": "file:vendor/vortexmt-js",
     "winapi-bindings": "Nexus-Mods/node-winapi-bindings"
@@ -223,10 +223,8 @@
     "d3": "^5.14.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.13",
-    "diskusage": "TanninOne/node-diskusage",
     "dnd-core": "^9.4.0",
     "draggabilly": "^2.2.0",
-    "drivelist": "TanninOne/drivelist",
     "electron-context-menu": "^3.6.1",
     "electron-redux": "file:vendor/electron-redux-compat",
     "electron-updater": "^4.2.0",
