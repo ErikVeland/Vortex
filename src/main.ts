@@ -652,7 +652,7 @@ function setupAutoUpdate() {
     });
     
     autoUpdater.on('checking-for-update', () => {
-      console.log('Checking for updates...');
+      console.log('🔍 Checking for updates...');
       // Could show checking notification to user
     });
     
@@ -667,7 +667,7 @@ function setupAutoUpdate() {
     });
     
     autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-      console.log('Update downloaded:', releaseName);
+      console.log('⬇️ Update downloaded:', releaseName);
       // Show dialog to user asking if they want to restart and install
       if (application) {
         try {
@@ -689,7 +689,7 @@ function setupAutoUpdate() {
             });
           }
         } catch (err) {
-          console.warn('Failed to show update dialog:', err);
+          console.warn('⚠️ Failed to show update dialog:', err);
         }
       }
     });
@@ -702,16 +702,13 @@ function setupAutoUpdate() {
     // Check for updates on app start
     app.whenReady().then(() => {
       // Delay the initial check to allow the app to fully start
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          checkForUpdates();
-          resolve();
-        }, 30000); // 30 seconds after app start
-      });
+      setTimeout(() => {
+        checkForUpdates();
+      }, 30000); // 30 seconds after app start
     });
     
   } catch (err) {
-    console.warn('Failed to set up auto update:', err);
+    console.warn('⚠️ Failed to set up auto update:', err);
   }
 }
 
@@ -737,6 +734,6 @@ function checkForUpdates() {
     console.log('Checking for updates...');
     autoUpdater.checkForUpdates();
   } catch (err) {
-    console.warn('Failed to check for updates:', err);
+    console.warn('⚠️ Failed to check for updates:', err);
   }
 }
